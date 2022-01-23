@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "filter": "node ./src/data/filter/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chance": "^1.1.8",
+    "discord.js": "^13.6.0",
     "dotenv": "^14.2.0",
     "ethers": "^5.5.3",
     "mathjs": "^10.1.0",

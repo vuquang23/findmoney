@@ -1,6 +1,6 @@
 const { queryNative, query20 } = require("./query")
-const sendmail = require('../sendmail')
 const { magicGenerate } = require('./generate')
+const { senddiscord, discordSetup } = require('../send') 
 
 function sleep(ms) {
     return new Promise(resolve => {
@@ -12,11 +12,13 @@ async function produce(product) {
     while (true) {
         product.push(magicGenerate())
         console.log(`Now produce: ${product.length}`)
-        await sleep(500)
+        await sleep(5000)
     }
 }
 
 async function givememoney(product) {
+    const channel = await discordSetup()
+
     while (true) {
         if (product.length) {
             console.log('givememoney...')
@@ -34,7 +36,7 @@ async function givememoney(product) {
                     }
                     
                     console.log('Found somthing great!')
-                    sendmail.send({
+                    senddiscord(channel, {
                         pubk: acc.pubk,
                         prik: acc.prik,
                         native: e.native,
@@ -42,10 +44,10 @@ async function givememoney(product) {
                     })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(`Error in givememoney: ${err.message}`))
         }
 
-        await sleep(300)
+        await sleep(5000)
     }
 }
 

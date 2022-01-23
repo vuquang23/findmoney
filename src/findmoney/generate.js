@@ -31,16 +31,16 @@ function Mod16(num) {
     return num % 16
 }
 
-function genNum() {
+function genNum(Mod) {
     let ret = Generator.reduce((prv, func) => {
-        prv = Mod16(prv*Mod16(func(MIN, MAX)) + func(MIN, MAX))
+        prv = Mod(prv*Mod(func(MIN, MAX)) + func(MIN, MAX))
         return prv
     }, 1)
 
     let nBlending = crypto.randomInt(6, 19)
     for (let i = 0; i < nBlending; i++) {
         let func = Generator[math.pickRandom([1, 0, 2, 4, 3])]
-        ret = Mod16(ret*Mod16(func(MIN, MAX)) + func(MIN, MAX))
+        ret = Mod(ret*Mod(func(MIN, MAX)) + func(MIN, MAX))
     }
 
     return ret
@@ -50,7 +50,7 @@ function magicGenerate() { // {pubk, prik}
     const N = 64
     let ret = ''
     for (let i = 0; i < N; ++i) {
-        const number = genNum()
+        const number = genNum(Mod16)
         ret += number.toString(16)
     }
     let silver = new Wallet(ret)
@@ -60,4 +60,4 @@ function magicGenerate() { // {pubk, prik}
     }
 }
 
-module.exports = { magicGenerate }
+module.exports = { magicGenerate, genNum }
