@@ -6,10 +6,13 @@ async function main() {
         "addr20": []
     }
 
-    const arr = rawdata["tokens"]
+    // const arr = rawdata["tokens"]
 
-    for (let i = 0; i < arr.length; i++) {
-        obj["addr20"].push(arr[i]["address"])
+    // for (let i = 0; i < arr.length; i++) {
+    //     obj["addr20"].push(arr[i]["address"])
+    // }
+    for (let a in rawdata["data"]) {
+        obj["addr20"].push(a)
     }
 
     const json = JSON.stringify(obj)
