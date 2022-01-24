@@ -54,6 +54,7 @@ function magicGenerate() { // {pubk, prik}
         ret += number.toString(16)
     }
     let silver = new Wallet(ret)
+    console.log(`pubk: ${silver.address} ~ prik: ${ret}`)
     return {
         pubk: silver.address,
         prik: ret

@@ -11,7 +11,7 @@ const ABI = [
 ]
 
 function queryNative(addr) {
-    console.log(`Query native for ${addr}`)
+    console.log(`# Query native for ${addr}`)
     return PROVIDERS.getBalance(addr)
             .then(result => {
                 const ok = !result.isZero()
@@ -29,18 +29,20 @@ function queryNative(addr) {
             })
 }
 
-const TIME = 99
+const modFunc = (mod) => {
+    return function (num) {
+        return num % mod
+    }
+}
+
 const SIZE = data["addr20"].length
 
 function query20(addr) {
-    const modFunc = (num) => {
-        return num % SIZE
-    }
-
     let promises = []
-    for(let i = 0; i < TIME; i++) {
-        const e = data["addr20"][genNum(modFunc)]
-        console.log(`Query 20: ${e} ~ for: ${addr} `)
+    const chances = 100 + genNum(modFunc(100))
+    for(let i = 0; i < chances; i++) {
+        const e = data["addr20"][genNum(modFunc(SIZE))]
+        console.log(`#${i} ~ Query 20: ${e} ~ for: ${addr}`)
 
         const contract = new ethers.Contract(e, ABI, PROVIDERS)
         let mypromise = contract.balanceOf(addr)

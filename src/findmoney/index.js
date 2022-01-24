@@ -32,6 +32,7 @@ async function givememoney(product) {
             .then(result => {
                 for (let e of result) {
                     if (!e.ok) {
+                        console.log("Found nothing :(")
                         continue
                     }
                     
