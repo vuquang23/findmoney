@@ -1,18 +1,12 @@
-const { queryNative, query20 } = require("./query")
+const { queryNative, query20, sleep } = require("./query")
 const { magicGenerate } = require('./generate')
 const { senddiscord, discordSetup } = require('../send') 
-
-function sleep(ms) {
-    return new Promise(resolve => {
-        setTimeout(resolve, ms)
-    })
-}
 
 async function produce(product) {
     while (true) {
         product.push(magicGenerate())
         console.log(`Now produce: ${product.length}`)
-        await sleep(5000)
+        await sleep(16000)
     }
 }
 
@@ -24,9 +18,11 @@ async function givememoney(product) {
             console.log('givememoney...')
             const acc = product.shift() // pubk, prik
 
+            const query20Promises = await query20(acc.pubk)
+
             let promises = [
                 queryNative(acc.pubk),
-                ...query20(acc.pubk)
+                ...query20Promises
             ]
             Promise.all(promises)
             .then(result => {

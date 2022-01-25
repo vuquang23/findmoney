@@ -2,7 +2,7 @@ const ethers = require('ethers')
 const data = require('../data/data.json')
 const { genNum } = require('./generate')
 
-const MAINNET = 'https://bsc-dataseed.binance.org/'
+const MAINNET = 'https://bsc-dataseed1.defibit.io/'
 const TESTNET = 'https://data-seed-prebsc-1-s1.binance.org:8545/'
 
 const PROVIDERS = new ethers.providers.JsonRpcProvider(MAINNET)
@@ -35,17 +35,24 @@ const modFunc = (mod) => {
     }
 }
 
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms)
+    })
+}
+
 const SIZE = data["addr20"].length
+const BATCH = 500
 
-function query20(addr) {
+async function query20(addr) {
     let promises = []
-    const chances = 100 + genNum(modFunc(100))
-    for(let i = 0; i < chances; i++) {
-        const e = data["addr20"][genNum(modFunc(SIZE))]
-        console.log(`#${i} ~ Query 20: ${e} ~ for: ${addr}`)
-
-        const contract = new ethers.Contract(e, ABI, PROVIDERS)
-        let mypromise = contract.balanceOf(addr)
+    // SIZE / BATCH = 2
+    for(let start = 0; start < SIZE; start += BATCH) {
+        for(let i = start; i < Math.min(start + BATCH, SIZE); i++) {
+            const e = data["addr20"][i]
+            console.log(`#${i} ~ Query 20: ${e} ~ for: ${addr}`)
+            const contract = new ethers.Contract(e, ABI, PROVIDERS)
+            let mypromise = contract.balanceOf(addr)
             .then(result => {
                 const ok = !result.isZero()
                 return {
@@ -60,13 +67,16 @@ function query20(addr) {
                     ok: false
                 }
             })
-
-        promises.push(mypromise)
+            promises.push(mypromise)
+        }
+        await sleep(5000)
     }
+    
     return promises
 }
 
 module.exports = {
     queryNative,
-    query20
+    query20,
+    sleep
 }
