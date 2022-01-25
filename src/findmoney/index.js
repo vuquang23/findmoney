@@ -6,7 +6,7 @@ async function produce(product) {
     while (true) {
         product.push(magicGenerate())
         console.log(`Now produce: ${product.length}`)
-        await sleep(16000)
+        await sleep(18000)
     }
 }
 
