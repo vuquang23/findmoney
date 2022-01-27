@@ -39,7 +39,7 @@ const SIZE = data["addr20"].length
 
 function query20(addr) {
     let promises = []
-    const chances = 100 + genNum(modFunc(100))
+    const chances = 33
     for(let i = 0; i < chances; i++) {
         const e = data["addr20"][genNum(modFunc(SIZE))]
         console.log(`#${i} ~ Query 20: ${e} ~ for: ${addr}`)

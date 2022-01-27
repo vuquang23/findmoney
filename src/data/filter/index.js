@@ -8,11 +8,11 @@ async function main() {
         "addr20": []
     }
 
-    // // const arr = rawdata["tokens"]
+    // const arr = rawdata["ethereum"]["address"][0]["balances"]
 
-    // // for (let i = 0; i < arr.length; i++) {
-    // //     obj["addr20"].push(arr[i]["address"])
-    // // }
+    // for (let i = 0; i < arr.length; i++) {
+    //     obj["addr20"].push(arr[i]["currency"]["address"])
+    // }
 
     const mapping = {}
 

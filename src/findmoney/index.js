@@ -12,7 +12,7 @@ async function produce(product) {
     while (true) {
         product.push(magicGenerate())
         console.log(`Now produce: ${product.length}`)
-        await sleep(5000)
+        await sleep(1300)
     }
 }
 
@@ -48,7 +48,7 @@ async function givememoney(product) {
             .catch(err => console.log(`Error in givememoney: ${err.message}`))
         }
 
-        await sleep(5000)
+        await sleep(1000)
     }
 }
 
